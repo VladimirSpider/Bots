@@ -1,508 +1,14 @@
-cars = {"Audi": {"100": {},
-                 "200": {},
-                 "80": {},
-                 "90": {},
-                 "A1": {},
-                 "A2": {},
-                 "A3": {},
-                 "A4": {},
-                 "A4 Allroad": {},
-                 "A5": {},
-                 "A6": {},
-                 "A6 Allroad": {},
-                 "A7": {},
-                 "A8": {},
-                 "Cabriolet": {},
-                 "Coupe": {},
-                 "e-tron": {},
-                 "Q3": {},
-                 "Q5": {},
-                 "Q7": {},
-                 "Q8": {},
-                 "RS Q3": {},
-                 "RS5": {},
-                 "RS6": {},
-                 "RS7": {},
-                 "S1": {},
-                 "S2": {},
-                 "S3": {},
-                 "S4": {},
-                 "S5": {},
-                 "S6": {},
-                 "S7": {},
-                 "S8": {},
-                 "SQ5": {},
-                 "SQ7": {},
-                 "TT": {},
-                 "V8": {}
-                 },
-        "BMW": {"1 серия": {},
-                "2 серия": {},
-                "2 серия Active Tourer": {},
-                "2 серия Gran Tourer": {},
-                "3 серия": {},
-                "4 серия": {},
-                "5 серия": {},
-                "6 серия": {},
-                "7 серия": {},
-                "8 серия": {},
-                "i3": {},
-                "i8": {},
-                "M2": {},
-                "M3": {},
-                "M4": {},
-                "M5": {},
-                "M6": {},
-                "X1": {},
-                "X2": {},
-                "X3": {},
-                "X4": {},
-                "X5": {},
-                "X5M": {},
-                "X6": {},
-                "X6M": {},
-                "X7": {},
-                "Z3": {},
-                "Z4": {}
-                },
-        "Mercedes-Benz": {"190 (W201)": {},
-                          "A-Класс": {},
-                          "A-Класс AMG": {},
-                          "AMG GT": {},
-                          "B-Класс": {},
-                          "C-Класс": {},
-                          "C-Класс AMG": {},
-                          "Citan": {},
-                          "CL": {},
-                          "CL AMG": {},
-                          "CLA": {},
-                          "CLA AMG": {},
-                          "CLC": {},
-                          "CLK": {},
-                          "CLS": {},
-                          "CLS AMG": {},
-                          "E-Класс": {},
-                          "E-Класс AMG": {},
-                          "EQC": {},
-                          "G-Класс": {},
-                          "G-Класс AMG": {},
-                          "GL-Класс": {},
-                          "GL-Класс AMG": {},
-                          "GLA": {},
-                          "GLA AMG": {},
-                          "GLB": {},
-                          "GLC": {},
-                          "GLC AMG": {},
-                          "GLC Coupe": {},
-                          "GLE": {},
-                          "GLE AMG": {},
-                          "GLE Coupe": {},
-                          "GLE Coupe AMG": {},
-                          "GLK": {},
-                          "GLS": {},
-                          "M-Класс": {},
-                          "M-Класс AMG": {},
-                          "Maybach": {},
-                          "MB": {},
-                          "R-Класс": {},
-                          "S-Класс": {},
-                          "S-Класс AMG": {},
-                          "SL": {},
-                          "SL AMG": {},
-                          "SLC": {},
-                          "SLK": {},
-                          "SLK AMG": {},
-                          "SLS AMG": {},
-                          "V-Класс": {},
-                          "Vaneo": {},
-                          "Viano": {},
-                          "Vito": {}
-                          },
-        "Opel": {"Adam": {},
-                 "Agila": {},
-                 "Ampera": {},
-                 "Antara": {},
-                 "Ascona": {},
-                 "Astra": {},
-                 "Calibra": {},
-                 "Combo": {},
-                 "Commodore": {},
-                 "Corsa": {},
-                 "Crossland X": {},
-                 "Frontera": {},
-                 "Grandland X": {},
-                 "Insignia": {},
-                 "Kadett": {},
-                 "Meriva": {},
-                 "Mokka": {},
-                 "Monterey": {},
-                 "Omega": {},
-                 "Rekord": {},
-                 "Senator": {},
-                 "Signum": {},
-                 "Sintra": {},
-                 "Tigra": {},
-                 "Vectra": {},
-                 "Vivaro": {},
-                 "Zafira": {}
-                 },
-        "Volkswagen" : {"Amarok": {},
-                        "Arteon": {},
-                        "Atlas": {},
-                        "Beetle": {},
-                        "Bora": {},
-                        "Caddy": {},
-                        "Caddy MAXI": {},
-                        "California": {},
-                        "Caravelle": {},
-                        "e-Bora": {},
-                        "e-Golf": {},
-                        "e-Lavida": {},
-                        "Eos": {},
-                        "Fox": {},
-                        "Gol": {},
-                        "Golf": {},
-                        "Golf Country": {},
-                        "Golf GTI": {},
-                        "Golf Plus": {},
-                        "Golf R": {},
-                        "Golf Sportsvan": {},
-                        "ID.3": {},
-                        "Jetta": {},
-                        "Lupo": {},
-                        "Multivan": {},
-                        "Passat": {},
-                        "Passat (USA)": {},
-                        "Passat Alltrack": {},
-                        "Passat CC": {},
-                        "Phaeton": {},
-                        "Polo": {},
-                        "Polo Sedan": {},
-                        "Santana": {},
-                        "Scirocco": {},
-                        "Sharan": {},
-                        "Taos": {},
-                        "Teramont": {},
-                        "Tiguan": {},
-                        "Touareg": {},
-                        "Touran": {},
-                        "Transporter": {},
-                        "up!": {},
-                        "Vento": {}
-                        }
-        }
-
-Audi = {"100" : "10",
-        "200" : "11",
-        "80" : "7",
-        "90" : "9",
-        "A1" : "2182",
-        "A2" : "13",
-        "A3" : "1428",
-        "A4" : "5810",
-        "A4 Allroad" : "5813",
-        "A5" : "1992",
-        "A6" : "5811",
-        "A6 Allroad" : "5814",
-        "A7" : "2278",
-        "A8" : "5812",
-        "Cabriolet" : "35",
-        "Coupe" : "1588",
-        "Q3" : "2316",
-        "Q5" : "2093",
-        "Q7" : "1702",
-        "Q8" : "5955",
-        "RS Q3" : "5852",
-        "RS5" : "5215",
-        "RS6" : "2601",
-        "RS7" : "2557",
-        "S1" : "17",
-        "S2" : "18",
-        "S3" : "19",
-        "S4" : "20",
-        "S5" : "2692",
-        "S6" : "21",
-        "S7" : "2556",
-        "S8" : "22",
-        "SQ5" : "5960",
-        "SQ7" : "5973",
-        "TT" : "37",
-        "V8" : "34",
-        "e-tron" : "6015"
-}
-
-BMW = {"1 серия" : "5860",
-       "2 серия" : "2575",
-       "2 серия Active Tourer" : "5861",
-       "2 серия Gran Tourer" : "5862",
-       "3 серия" : "5863",
-       "4 серия" : "2496",
-       "5 серия" : "5865",
-       "6 серия" : "83",
-       "7 серия" : "5866",
-       "8 серия" : "1635",
-       "M2" : "5769",
-       "M3" : "52",
-       "M4" : "5469",
-       "M5" : "81",
-       "M6" : "2430",
-       "X1" : "2207",
-       "X2" : "5841",
-       "X3" : "1661",
-       "X4" : "2563",
-       "X5" : "5867",
-       "X5M" : "5873",
-       "X6" : "1946",
-       "X6M" : "5874",
-       "X7" : "5965",
-       "Z3" : "5870",
-       "Z4" : "5871",
-       "i3" : "2691",
-       "i8" : "2596"
-}
-
-Mercedes_Benz = {"190 (W201)" : "761",
-                 "A-Класс" : "1642",
-                 "A-Класс AMG" : "5878",
-                 "AMG GT" : "5488",
-                 "B-Класс" : "1645",
-                 "C-Класс" : "5879",
-                 "C-Класс AMG" : "5880",
-                 "CL" : "747",
-                 "CL AMG": "5881",
-                 "CLA" : "2444",
-                 "CLA AMG" : "5882",
-                 "CLC" : "2409",
-                 "CLK" : "751",
-                 "CLS" : "1734",
-                 "CLS AMG" : "5954",
-                 "Citan" : "2526",
-                 "E-Класс" : "5884",
-                 "E-Класс AMG" : "5885",
-                 "EQC": "10022",
-                 "G-Класс" : "774",
-                 "G-Класс AMG" : "5886",
-                 "GL-Класс" : "1944",
-                 "GL-Класс AMG" : "5887",
-                 "GLA" : "2537",
-                 "GLA AMG" : "5888",
-                 "GLB": "10041",
-                 "GLC" : "2718",
-                 "GLC AMG": "5889",
-                 "GLC Coupe": "5890",
-                 "GLE" : "2675",
-                 "GLE AMG" : "5892",
-                 "GLE Coupe" : "5893",
-                 "GLE Coupe AMG" : "5894",
-                 "GLK" : "2040",
-                 "GLS" : "5250",
-                 "M-Класс" : "789",
-                 "M-Класс AMG" : "5904",
-                 "MB" : "5798",
-                 "Maybach" : "785",
-                 "R-Класс" : "1837",
-                 "S-Класс" : "5897",
-                 "S-Класс AMG" : "5898",
-                 "SL" : "811",
-                 "SL AMG" : "5899",
-                 "SLC" : "5900",
-                 "SLK" : "812",
-                 "SLK AMG" : "5902",
-                 "SLS AMG" : "5761",
-                 "V-Класс" : "1910",
-                 "Vaneo" : "818",
-                 "Viano" : "820",
-                 "Vito" : "821"
-}
-
-Opel = {"Adam" : "5183",
-        "Agila" : "1591",
-        "Ampera" : "2715",
-        "Antara" : "2180",
-        "Ascona" : "968",
-        "Astra" : "5815",
-        "Calibra" : "970",
-        "Combo" : "972",
-        "Commodore" : "973",
-        "Corsa" : "974",
-        "Crossland X" : "5943",
-        "Frontera" : "976",
-        "Grandland X" : "5944",
-        "Insignia" : "2183",
-        "Kadett" : "977",
-        "Meriva" : "1563",
-        "Mokka" : "2530",
-        "Monterey" : "979",
-        "Omega" : "981",
-        "Rekord" : "982",
-        "Senator" : "983",
-        "Signum" : "984",
-        "Sintra" : "985",
-        "Tigra" : "986",
-        "Vectra" : "987",
-        "Vivaro" : "5778",
-        "Zafira" : "988"
-        }
-
-Volkswagen = {"Amarok" : "2320",
-              "Arteon": "10020",
-              "Atlas" : "5980",
-              "Beetle" : "1217",
-              "Bora" : "1218",
-              "Caddy" : "1219",
-              "Caddy MAXI" : "5855",
-              "California" : "5916",
-              "Caravelle" : "5913",
-              "Eos" : "2075",
-              "Fox" : "1984",
-              "Gol" : "1534",
-              "Golf" : "5908",
-              "Golf Country" : "1221",
-              "Golf GTI" : "5909",
-              "Golf Plus" : "2656",
-              "Golf R" : "5910",
-              "Golf Sportsvan" : "5964",
-              "ID.3": "10062",
-              "Jetta" : "1223",
-              "Lupo" : "1226",
-              "Multivan" : "5914",
-              "Passat" : "5912",
-              "Passat (USA)" : "5835",
-              "Passat Alltrack" : "5261",
-              "Passat CC" : "2074",
-              "Phaeton" : "1228",
-              "Polo" : "1229",
-              "Polo Sedan" : "5920",
-              "Santana" : "1425",
-              "Scirocco" : "1231",
-              "Sharan" : "1230",
-              "Taos": "10081",
-              "Teramont" : "5842",
-              "Tiguan" : "1974",
-              "Touareg" : "1235",
-              "Touran" : "1236",
-              "Transporter" : "5915",
-              "Vento" : "1237",
-              "e-Bora": "10019",
-              "e-Golf" : "5948",
-              "e-Lavida": "10097",
-              "up!" : "2674"
-}
-
-all_cars = {'Alfa Romeo': '1',
-            'Все марки': '10098',
-            'Audi': '6',
-            'BMW': '8',
-            'Cadillac': '40',
-            'Chevrolet': '41',
-            'Chrysler': '42',
-            'Citroen': '43',
-            'Dodge': '45',
-            'Daewoo': '46',
-            'Daihatsu': '47',
-            'Fiat': '301',
-            'Ford': '330',
-            'GMC': '372',
-            'Honda': '383',
-            'Hyundai': '433',
-            'Isuzu': '461',
-            'Jaguar': '526',
-            'Jeep': '540',
-            'Kia': '545',
-            'Lancia': '572',
-            'Land Rover': '584',
-            'Lexus': '589',
-            'Lincoln': '601',
-            'Mazda': '634',
-            'Mercedes-Benz': '683',
-            'Mercury': '825',
-            'Mitsubishi': '834',
-            'Nissan': '892',
-            'Opel': '966',
-            'Peugeot': '989',
-            'Plymouth': '1012',
-            'Pontiac': '1022',
-            'Renault': '1039',
-            'Rover': '1067',
-            'Saab': '1085',
-            'SEAT': '1091',
-            'Skoda': '1126',
-            'Subaru': '1136',
-            'Suzuki': '1155',
-            'Toyota': '1181',
-            'Volkswagen': '1216',
-            'Volvo': '1238',
-            'Lada (ВАЗ)': '1279',
-            'ГАЗ': '1310',
-            'Infiniti': '1343',
-            'Oldsmobile': '1364',
-            'Acura': '1444',
-            'УАЗ': '1464',
-            'Porsche': '1485',
-            'Hummer': '1498',
-            'Buick': '1506',
-            'ЗАЗ': '1551',
-            'SsangYong': '1597',
-            'Proton': '1609',
-            'Maserati': '1625',
-            'Bentley': '1676',
-            'Saturn': '1703',
-            'Great Wall': '1726',
-            'Dacia': '1841',
-            'MINI': '1850',
-            'Wartburg': '1857',
-            'MG': '1906',
-            'Chery': '1998',
-            'Geely': '2012',
-            'Iran Khodro': '2022',
-            'JAC': '2030',
-            'Москвич': '2051',
-            'Hafei': '2215',
-            'ЛуАЗ': '2345',
-            'Smart': '2449',
-            'FAW': '2465',
-            'Zotye': '2510',
-            'Tesla': '2521',
-            'Datsun': '2578',
-            'Lifan': '2586',
-            'Changan': '2632',
-            'Scion': '2698',
-            'ИЖ': '2894',
-            'Эксклюзив': '5019',
-            'ТагАЗ': '5032',
-            'ZX': '5066',
-            'Haima': '5070',
-            'Богдан': '5076',
-            'РАФ': '5252',
-            'ARO': '5324',
-            'Vortex': '5437',
-            'Tata': '5447',
-            'BYD': '5459',
-            'Ravon': '5503',
-            'Santana': '5517',
-            'FSO': '5526',
-            'Dongfeng': '5780',
-            'Haval': '5782',
-            'Xpeng': '6019',
-            'ЕрАЗ': '10094'
-            }
-
-'''for key in sorted(Volkswagen.keys()):
-    print (key, Volkswagen[key])'''
-
-####################################################################################################
-
-cars_gmbh = {"Audi" : "1900",
-             "BMW" : "3500",
-             "Mercedes-Benz" : "17200",
-             "Opel" : "19000",
-             "Volkswagen" : "25200"
-            }
-
-'''for key in cars_gmbh.keys():
-    print (key, cars_gmbh[key])'''
-
-cars_model_gmbh = {"Audi" : {
+import requests
+from bs4 import BeautifulSoup as BS
+import re
+import math
+cars = {"Audi" : "1900",
+     "BMW" : "3500",
+     "Mercedes-Benz" : "17200",
+     "Opel" : "19000",
+     "Volkswagen" : "25200"
+    }
+cars_model = {"Audi" : {
                         '2': '100',
                         '3': '200',
                         '5': '80',
@@ -1177,3 +683,181 @@ cars_model_gmbh = {"Audi" : {
                     '17': 'жук'
                     }
 }
+name_c = ""
+nc = "1"
+nm = "1"
+np = "1"
+URL = "https://www.mobile.de/ru/%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C/"+name_c+"/vhc:car,pgn:"+np+",pgs:10,ms1:"+nc+"_"+nm+"_"
+HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36', 'accept': '*/*'}
+
+def get_html(url, params=None):
+    r = requests.get(url, headers = HEADERS, params = params)
+    return r
+
+def number_pages(name_c,nc, nm):
+    np = "1"
+    URL = "https://www.mobile.de/ru/%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C/"+name_c+"/vhc:car,pgn:"+np+",pgs:10,ms1:"+nc+"_"+nm+"_"
+    html = get_html(URL)
+    html = BS(html.content, 'html.parser')
+    np = html.find('div', class_ = 'search-result-header g-col-12 js-search-result-header hidden-print')\
+        .find('h1', class_ = 'h2 u-text-orange').get_text(strip=True)
+    print(np)
+    np = np.replace("\u00A0","")
+    print(np)
+    np = re.findall(r'\d+', np)
+    np = int(np[0]) / 10
+    np = math.ceil(np)
+    print("All pages - ", np)
+    return np
+
+'''def f():
+    name_c = ""
+    nc = input("Введите марку:")
+    if nc in cars.keys():
+        name_c = nc.lower()
+        print(name_c)
+        nc = cars[nc]
+        print(nc)
+        name_c = name_c.lower()
+    else:
+        print("ERROR")
+        pass
+    URL = "https://www.mobile.de/ru/%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C/"+name_c+"/vhc:car,pgn:"+np+",pgs:10,ms1:"+nc+"_"+nm+"_"
+    html = get_html(URL)
+    if html.status_code == 200:
+        html = BS(html.content, 'html.parser')
+        text = html.find('div', class_='form-group').find_next_sibling('div').find('select', class_ = "form-control form-control--dropdown js-model-dropdown js-track-event")
+        text = text.find_all('option')
+        a = {}
+        for el in text:
+            b = el.get('value')
+            c = el.get_text(strip=True)
+            a[b]=c
+            print(b)
+            print(c)
+    print(a)
+    return a
+
+f()'''
+
+def parse():
+    j = 0
+    name_c = ""
+    name_car = input("Введите марку:")
+    if name_car in cars.keys():
+        name_c = name_car.lower()
+        print(name_c)
+        nc = cars[name_car]
+        print(nc)
+        name_c = name_c.lower()
+    else:
+        print("ERROR")
+        pass
+    nm = input("Введите модель:")
+    if nm in cars_model[name_car].values():
+        for el in cars_model[name_car].keys():
+            if nm == cars_model[name_car][el]:
+                nm = el
+                print(nm)
+    else:
+        print("ERROR")
+        pass
+    pages = number_pages(name_c ,nc, nm)
+    for np in range (1, (pages + 1)):
+        np = str(np)
+        print("PAGE №", np)
+        URL = "https://www.mobile.de/ru/%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C/"+name_c+"/vhc:car,pgn:"+np+",pgs:10,ms1:"+nc+"_"+nm+"_"
+        HOST = 'https://www.mobile.de/ru/%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C/'+ name_c +'/vhc:car,ms1:'+ nc +'__'
+        html = get_html(URL)
+        if html.status_code == 200:
+            print("Hi")
+            html = BS(html.content, 'html.parser')
+            list_our = html.find_all('article', class_='list-entry g-row eyecatcher')
+            if len(list_our) != 0:
+                for el in html.find_all('article', class_='list-entry g-row eyecatcher'):
+                    j += 1
+                    try:
+                        title = el.find('div', class_='vehicle-text g-row') \
+                            .find('h3', class_='vehicle-title g-col-12 u-text-nowrap').get_text(strip=True)
+                        title = title.replace("Новое", "")
+                    except:
+                        title = "Error"
+                    try:
+                        description = el.find('div', class_='vehicle-text g-row') \
+                            .find('div', class_ = "vehicle-techspecs hidden-s").get_text(strip=True)
+                    except:
+                        description = "Error"
+                    try:
+                        cost = el.find('div', class_='vehicle-text g-row') \
+                            .find('div', class_ = "g-col-s-6 g-col-m-4 u-text-right") \
+                            .find('p', class_ = "seller-currency u-text-bold").get_text(strip=True)
+                    except:
+                        cost = "Error"
+                    try:
+                        year = el.find('div', class_='vehicle-text g-row') \
+                            .find('div', class_="vehicle-information g-col-s-6 g-col-m-8") \
+                            .find('p', class_="u-text-bold").get_text(strip=True)
+                    except:
+                        year = "Error"
+                    try:
+                        link = el.find('div', class_='g-row js-ad-entry') \
+                            .find('a', class_="vehicle-data track-event u-block js-track-event js-track-dealer-ratings").get('href')
+                        link = re.findall(r'/pg.*', link)[0]
+                    except:
+                        link = "Error"
+
+                    print("№", j, "\n")
+                    print(title)
+                    print(year)
+                    print(description)
+                    print(cost)
+                    print(HOST+link)
+
+            ##########################################################################
+            list_our = html.find_all('article', class_='list-entry g-row')
+            if len(list_our) != 0:
+                for el in html.find_all('article', class_='list-entry g-row'):
+                    j += 1
+                    try:
+                        title = el.find('div', class_='vehicle-text g-row') \
+                            .find('h3', class_='vehicle-title g-col-12 u-text-nowrap').get_text(strip=True)
+                        title = title.replace("Новое", "")
+                    except:
+                        title = "Error"
+                    try:
+                        description = el.find('div', class_='vehicle-text g-row') \
+                            .find('div', class_ = "vehicle-techspecs hidden-s").get_text(strip=True)
+                    except:
+                        description = "Error"
+                    try:
+                        cost = el.find('div', class_='vehicle-text g-row') \
+                            .find('div', class_ = "g-col-s-6 g-col-m-4 u-text-right") \
+                            .find('p', class_ = "seller-currency u-text-bold").get_text(strip=True)
+                    except:
+                        cost = "Error"
+                    try:
+                        year = el.find('div', class_='vehicle-text g-row') \
+                            .find('div', class_="vehicle-information g-col-s-6 g-col-m-8") \
+                            .find('p', class_="u-text-bold").get_text(strip=True)
+                    except:
+                        year = "Error"
+                    try:
+                        link = el.find('div', class_='g-row js-ad-entry') \
+                            .find('a', class_="vehicle-data track-event u-block js-track-event js-track-dealer-ratings").get('href')
+                        link = re.findall(r'/pg.*', link)[0]
+                    except:
+                        link = "Error"
+
+                    print("№", j, "\n")
+                    print(title)
+                    print(year)
+                    print(description)
+                    print(cost)
+                    print(HOST+link)
+
+        else:
+            print('Error')
+
+#parse()
+#number_pages()
+

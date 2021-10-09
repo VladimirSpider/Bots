@@ -32,7 +32,7 @@ mycursor.execute("CREATE TABLE Users (id INT AUTO_INCREMENT PRIMARY KEY,\
                  date_of_registration VARCHAR(255),\
                  password VARCHAR(255))")
 '''
-#(3-step)
+#(3.1-step)
 '''mycursor.execute("CREATE TABLE Cars_from_belarus (id INT AUTO_INCREMENT PRIMARY KEY,\
                  car_brand VARCHAR(255),\
                  technical_number INT)")'''
@@ -44,7 +44,19 @@ mycursor.execute("CREATE TABLE Users (id INT AUTO_INCREMENT PRIMARY KEY,\
     mycursor.execute(sql, val)
     mydb.commit()'''
 
-#(4-step)
+#(3.2-step)
+'''mycursor.execute("CREATE TABLE Cars_from_germany (id INT AUTO_INCREMENT PRIMARY KEY,\
+                 car_brand VARCHAR(255),\
+                 technical_number INT)")'''
+
+'''for key in dictionaries.cars_gmbh.keys():
+    print (key, dictionaries.cars_gmbh[key])
+    sql = "INSERT INTO Cars_from_germany (car_brand, technical_number) VALUES (%s, %s)"
+    val = (key, dictionaries.cars_gmbh[key])
+    mycursor.execute(sql, val)
+    mydb.commit()'''
+
+#(4.1-step)
 '''mycursor.execute("CREATE TABLE Model_from_belarus (id INT AUTO_INCREMENT PRIMARY KEY,\
                  id_fk INT,\
                  car_brand VARCHAR(255),\
@@ -60,6 +72,25 @@ mycursor.execute("CREATE TABLE Users (id INT AUTO_INCREMENT PRIMARY KEY,\
     mycursor.execute(sql, val)
     mydb.commit()'''
 
+#(4.2-step)
+'''mycursor.execute("CREATE TABLE Model_from_germany (id INT AUTO_INCREMENT PRIMARY KEY,\
+                 id_fk INT,\
+                 car_brand VARCHAR(255),\
+                 model VARCHAR(255),\
+                 technical_number INT,\
+                 FOREIGN KEY (id_fk) REFERENCES Cars_from_germany (id))")'''
+
+#Audi, BMW, Mercedes_Benz, Opel, Volkswagen
+'''i = 0
+for car in dictionaries.cars_model_gmbh.keys():
+    i += 1
+    for mpdel_n in dictionaries.cars_model_gmbh[car].keys():
+        print (f'{car}-{mpdel_n}-{dictionaries.cars_model_gmbh[car][mpdel_n]}')
+        sql = "INSERT INTO Model_from_germany (id_fk, car_brand, model, technical_number) VALUES (%s, %s, %s, %s)"
+        val = (i, car, dictionaries.cars_model_gmbh[car][mpdel_n], mpdel_n)
+        mycursor.execute(sql, val)
+        mydb.commit()'''
+
 #(5-step)
 '''mycursor.execute("CREATE TABLE All_сars (id INT AUTO_INCREMENT PRIMARY KEY,\
                  country VARCHAR(255),\
@@ -72,10 +103,11 @@ mycursor.execute("CREATE TABLE Users (id INT AUTO_INCREMENT PRIMARY KEY,\
 
 current_date = datetime.datetime.now().date()
 
-cost_min = ""
-cost_max = ""
-year_min = ""
-year_max = ""
+filter = {"cost_min" : "",
+          "cost_max" : "",
+          "year_min" : "",
+          "year_max" : ""
+         }
 
 count_listings = 0
 
@@ -136,7 +168,7 @@ markup_filter_back_exit.add(itembtn1, itembtn2)
 markup_filter = types.ReplyKeyboardMarkup(resize_keyboard= True ,row_width=2)
 itembtn1 = types.KeyboardButton("COST: from... to...")
 itembtn2 = types.KeyboardButton("YEAR: from... to...")
-itembtn3 = types.KeyboardButton("BACK")
+itembtn3 = types.KeyboardButton("BACK(filter will reset)")
 itembtn4 = types.KeyboardButton("EXIT")
 markup_filter.add(itembtn1, itembtn2, itembtn3, itembtn4)
 
@@ -183,7 +215,7 @@ def process_enter_step1(message):
         msg = bot.send_message(message.chat.id, "Write your firstname!", reply_markup=hideBoard)
         bot.register_next_step_handler(msg, process_enter_step2)
     else:
-        msg = bot.send_message(message.chat.id, "Press this keys please!"
+        msg = bot.send_message(message.chat.id, "Press this key please!"
                                                 "\nYou must enter in your account!",
                                                 reply_markup=markup_enter)
         bot.register_next_step_handler(msg, process_enter_step1)
@@ -273,6 +305,12 @@ def look_for_car_brand_step(message):
         bot.register_next_step_handler(msg, look_for_car_brand_step)
 
 def look_for_car_model_step(message):
+    if (filter["cost_min"] != "" and filter["cost_max"] != "") or (filter["year_min"] != "" and filter["year_max"] != ""):
+        bot.send_message(message.chat.id, "Your filter is automatically reset!")
+        filter["cost_min"] = ""
+        filter["cost_max"] = ""
+        filter["year_min"] = ""
+        filter["year_max"] = ""
     global what_model_do_you_want
     global list_models
     if (message.text in list_models) and message.text != "EXIT" and message.text != "BACK" and message.text != "-----":
@@ -350,8 +388,8 @@ def look_for_car_model_step(message):
         mydb.commit()
     else:
         print("HI")
-        msg = bot.send_message(message.chat.id, "Press one of these keys please!"
-                                                "\nOk. Chose your brand's model please.",
+        msg = bot.send_message(message.chat.id, f"Press one of these keys please!"
+                                                f"\nChose your brand's model please.",
                                                 reply_markup=what_model_do_you_want)
         bot.register_next_step_handler(msg, look_for_car_model_step)
 
@@ -368,9 +406,26 @@ def user_look_for_car_step(message):
         print("FILTER")
     elif message.text == "WATCH":
         print("WATCH")
-        sql = "SELECT * FROM All_сars"
-        mycursor.execute(sql)
-        myresult = mycursor.fetchall()
+        myresult = ""
+        if filter["cost_min"] == "" and filter["cost_max"] == "" and filter["year_min"] == "" and filter["year_max"] == "":
+            sql = "SELECT * FROM All_сars"
+            mycursor.execute(sql)
+            myresult = mycursor.fetchall()
+        elif filter["cost_min"] != "" and filter["cost_max"] != "" and filter["year_min"] == "" and filter["year_max"] == "":
+            bot.send_message(message.chat.id, f"Ok! \nYour filter:\ncost min: {filter['cost_min']}\ncost max: {filter['cost_max']}\nyear min: {filter['year_min']}\nyear max: {filter['year_max']}")
+            sql = "SELECT * FROM All_сars \
+                   WHERE cost >= %s and cost <= %s"
+            cost = (int(filter["cost_min"]), int(filter["cost_max"]),)
+            mycursor.execute(sql, cost)
+            myresult = mycursor.fetchall()
+            print(myresult)
+        elif filter["cost_min"] == "" and filter["cost_max"] == "" and filter["year_min"] != "" and filter["year_max"] != "":
+            bot.send_message(message.chat.id, f"Ok! \nYour filter:\nyear min: {filter['year_min']}\nyear max: {filter['year_max']}\ncost min: {filter['cost_min']}\ncost max: {filter['cost_max']}")
+            sql = "SELECT * FROM All_сars \
+                   WHERE year >= %s and year <= %s"
+            year = (int(filter["year_min"]), int(filter["year_max"]),)
+            mycursor.execute(sql, year)
+            myresult = mycursor.fetchall()
         for el in myresult:
             if myresult[count_listings] == el:
                 if ((myresult.index(el) + 1) % 5) == 0 and (myresult.index(el) != len(myresult) - 1):
@@ -412,8 +467,12 @@ def user_look_for_car_step(message):
         mydb.commit()
     else:
         print("HI")
-        msg = bot.send_message(message.chat.id, "Press one of these keys please!"
-                                                "\nOk. Chose your brand's model please.",
+        msg = bot.send_message(message.chat.id, f"Press one of these keys please!"
+                                                f"\nYou can to see all listings"
+                                                f"\nin blocks of 5 items."
+                                                f"\nAlso you can use filter."
+                                                f"\nCOST: from... to..."
+                                                f"\nYEAR: from... to...",
                                                 reply_markup=markup_watch_filter)
         bot.register_next_step_handler(msg, user_look_for_car_step)
 
@@ -432,7 +491,11 @@ def user_look_for_car_filter_step(message):
                                                 "\nOk! Write minimal year.",
                                                 reply_markup=hideBoard)
         bot.register_next_step_handler(msg, user_look_for_car_filter_min_year_step)
-    elif message.text == "BACK":
+    elif message.text == "BACK(filter will reset)":
+        filter["cost_min"] = ""
+        filter["cost_max"] = ""
+        filter["year_min"] = ""
+        filter["year_max"] = ""
         bot.send_message(message.chat.id, f"Wait please! Data is loading.", reply_markup=hideBoard)
         global what_model_do_you_want
         global list_models
@@ -474,13 +537,18 @@ def user_look_for_car_filter_step(message):
         sql = "DELETE FROM All_сars"
         mycursor.execute(sql)
         mydb.commit()
+    else:
+        msg = bot.send_message(message.chat.id, "Press one of these keys please!"
+                                                f"\nOk! Will chose cost from... to..."
+                                                f"\nor  year from... to...",
+                                                reply_markup=markup_filter)
+        bot.register_next_step_handler(msg, user_look_for_car_filter_step)
 
 def user_look_for_car_filter_min_cost_step(message):
-    global cost_min
-    cost_min = message.text
+    filter["cost_min"] = message.text
     try:
-        int(cost_min)
-        if len(cost_min) <= 7 and int(cost_min) <= 999999 and cost_min.isdigit():
+        int(filter["cost_min"])
+        if len(filter["cost_min"]) <= 7 and int(filter["cost_min"]) <= 999999 and filter["cost_min"].isdigit():
             msg = bot.send_message(message.chat.id, "Ok! Write maximal cost.")
             bot.register_next_step_handler(msg, user_look_for_car_filter_max_cost_step)
         else:
@@ -499,33 +567,37 @@ def user_look_for_car_filter_min_cost_step(message):
         bot.register_next_step_handler(msg, user_look_for_car_filter_min_cost_step)
 
 def user_look_for_car_filter_max_cost_step(message):
-    global cost_min
-    global cost_max
-    cost_max = message.text
+    filter["cost_max"] = message.text
+    filter["year_min"] = ""
+    filter["year_max"] = ""
     try:
-        int(cost_max)
-        if len(cost_max) <= 7 and int(cost_max) <= 1000000 and cost_max.isdigit() and (int(cost_max) >= int(cost_min)):
-            bot.send_message(message.chat.id, f"Ok! \nYour filter:\ncost min: {cost_min}\ncost max: {cost_max}")
+        int(filter["cost_max"])
+        if len(filter["cost_max"]) <= 7 and int(filter["cost_max"]) <= 1000000 and filter["cost_max"].isdigit() and (int(filter["cost_max"]) >= int(filter["cost_min"])):
+            bot.send_message(message.chat.id, f"Ok! \nYour filter:\ncost min: {filter['cost_min']}\ncost max: {filter['cost_max']}")
             bot.send_message(message.chat.id, f"Wait please! Data is loading.", reply_markup=hideBoard)
             global what_model_do_you_want
             global list_models
 
             sql = "SELECT COUNT(*) FROM all_сars " \
                   "WHERE cost >= %s and cost <= %s"
-            cost = (cost_min, cost_max,)
+            cost = (filter["cost_min"], filter["cost_max"],)
             mycursor.execute(sql, cost)
             myresult = mycursor.fetchall()
             print(myresult)
 
             sql = "SELECT country, city, title, description, year, cost, link   FROM All_сars\
-                                  WHERE cost = (SELECT MIN(cost) FROM All_сars)"
-            mycursor.execute(sql)
+                                  WHERE cost = (SELECT MIN(cost) FROM All_сars \
+                                                WHERE cost >= %s and cost <= %s)"
+            cost = (filter["cost_min"], filter["cost_max"],)
+            mycursor.execute(sql, cost)
             myresult_min = mycursor.fetchone()
             print(myresult_min)
 
             sql = "SELECT country, city, title, description, year, cost, link   FROM All_сars\
-                                          WHERE cost = (SELECT MAX(cost) FROM All_сars)"
-            mycursor.execute(sql)
+                                          WHERE cost = (SELECT MAX(cost) FROM All_сars \
+                                                        WHERE cost >= %s and cost <= %s)"
+            cost = (filter["cost_min"], filter["cost_max"],)
+            mycursor.execute(sql, cost)
             myresult_max = mycursor.fetchone()
             print(myresult_max)
             bot.send_message(message.chat.id, f"Your choice:"
@@ -559,11 +631,10 @@ def user_look_for_car_filter_max_cost_step(message):
         bot.register_next_step_handler(msg, user_look_for_car_filter_max_cost_step)
 
 def user_look_for_car_filter_min_year_step(message):
-    global year_min
-    year_min = message.text
+    filter["year_min"] = message.text
     try:
-        int(year_min)
-        if len(year_min) == 4 and int(year_min) >= 1950 and year_min.isdigit():
+        int(filter["year_min"])
+        if len(filter["year_min"]) == 4 and int(filter["year_min"]) >= 1950 and filter["year_min"].isdigit():
             msg = bot.send_message(message.chat.id, "Ok! Write maximal year.")
             bot.register_next_step_handler(msg, user_look_for_car_filter_max_year_step)
         else:
@@ -582,33 +653,37 @@ def user_look_for_car_filter_min_year_step(message):
         bot.register_next_step_handler(msg, user_look_for_car_filter_min_year_step)
 
 def user_look_for_car_filter_max_year_step(message):
-    global year_min
-    global year_max
-    year_max = message.text
+    filter["year_max"] = message.text
+    filter["cost_min"] = ""
+    filter["cost_max"] = ""
     try:
-        int(year_max)
-        if len(year_max) == 4 and int(year_max) <= 2021 and year_max.isdigit() and (int(year_max) >= int(year_min)):
-            bot.send_message(message.chat.id, f"Ok! \nYour filter:\nyear min: {year_min}\nyear max: {year_max}")
+        int(filter["year_max"])
+        if len(filter["year_max"]) == 4 and int(filter["year_max"]) <= 2021 and filter["year_max"].isdigit() and (int(filter["year_max"]) >= int(filter["year_min"])):
+            bot.send_message(message.chat.id, f"Ok! \nYour filter:\nyear min: {filter['year_min']}\nyear max: {filter['year_max']}")
             bot.send_message(message.chat.id, f"Wait please! Data is loading.", reply_markup=hideBoard)
             global what_model_do_you_want
             global list_models
 
             sql = "SELECT COUNT(*) FROM all_сars " \
                   "WHERE year >= %s and year <= %s"
-            year = (year_min, year_max,)
+            year = (filter["year_min"], filter["year_max"],)
             mycursor.execute(sql, year)
             myresult = mycursor.fetchall()
             print(myresult)
 
             sql = "SELECT country, city, title, description, year, cost, link   FROM All_сars\
-                                              WHERE cost = (SELECT MIN(cost) FROM All_сars)"
-            mycursor.execute(sql)
+                                              WHERE cost = (SELECT MIN(cost) FROM All_сars \
+                                                            WHERE year >= %s and year <= %s)"
+            year = (filter["year_min"], filter["year_max"],)
+            mycursor.execute(sql, year)
             myresult_min = mycursor.fetchone()
             print(myresult_min)
 
             sql = "SELECT country, city, title, description, year, cost, link   FROM All_сars\
-                                                      WHERE cost = (SELECT MAX(cost) FROM All_сars)"
-            mycursor.execute(sql)
+                                                      WHERE cost = (SELECT MAX(cost) FROM All_сars \
+                                                                    WHERE year >= %s and year <= %s)"
+            year = (filter["year_min"], filter["year_max"],)
+            mycursor.execute(sql, year)
             myresult_max = mycursor.fetchone()
             print(myresult_max)
             bot.send_message(message.chat.id, f"Your choice:"
@@ -672,15 +747,17 @@ def process_birthday_year_step(message):
     year = message.text
     try:
         int(year)
-        if len(year) == 4 and year.isdigit():
+        if len(year) == 4 and year.isdigit() and int(year) >= 1940:
             msg = bot.send_message(message.chat.id, "Write number your birthday month!")
             bot.register_next_step_handler(msg, process_birthday_month_step)
         else:
             msg = bot.send_message(message.chat.id, "You must to write four-digit integer!"
+                                                    "\nAnd your birthday year must to be more than 1940!"
                                                     "\nWrite your birthday year!")
             bot.register_next_step_handler(msg, process_birthday_year_step)
     except Exception:
         msg = bot.send_message(message.chat.id, "You must to write four-digit integer!"
+                                                "\nAnd your birthday year must to be more than 1940!"
                                                 "\nWrite your birthday year!")
         bot.register_next_step_handler(msg, process_birthday_year_step)
 
